@@ -2,8 +2,8 @@
  * @flow
  */
 
-import iterationDecorator from "./util/iterationDecorator";
-import rolesMap from './rolesMap';
+import iterationDecorator from "../util/iterationDecorator";
+import rolesMap from "./rolesMap";
 
 type ARIARoleRelationConcepts = Array<ARIARoleRelationConcept>;
 type RoleElementRelation = [ARIARoleDefinitionKey, ARIARoleRelationConcepts];
@@ -21,7 +21,7 @@ for (let i = 0; i < keys.length; i++) {
     const concepts = [].concat(role.baseConcepts, role.relatedConcepts);
     for (let k = 0; k < concepts.length; k++) {
       const relation: ARIARoleRelation = concepts[k];
-      if (relation.module === 'HTML') {
+      if (relation.module === "HTML") {
         const concept = relation.concept;
         if (concept != null) {
           relationConcepts.push(concept);
@@ -37,21 +37,25 @@ for (let i = 0; i < keys.length; i++) {
 const roleElementMap: TAriaQueryMap<
   RoleElementRelations,
   ARIARoleDefinitionKey,
-  ARIARoleRelationConcepts,
+  ARIARoleRelationConcepts
 > = {
   entries: function (): RoleElementRelations {
     return roleElement;
   },
   forEach: function (
-    fn: (ARIARoleRelationConcepts, ARIARoleDefinitionKey, RoleElementRelations) => void,
-    thisArg: any = null,
+    fn: (
+      ARIARoleRelationConcepts,
+      ARIARoleDefinitionKey,
+      RoleElementRelations
+    ) => void,
+    thisArg: any = null
   ): void {
     for (let [key, values] of roleElement) {
       fn.call(thisArg, values, key, roleElement);
     }
   },
   get: function (key: ARIARoleDefinitionKey): ?ARIARoleRelationConcepts {
-    const item = roleElement.find(tuple => (tuple[0] === key) ? true : false);
+    const item = roleElement.find((tuple) => (tuple[0] === key ? true : false));
     return item && item[1];
   },
   has: function (key: ARIARoleDefinitionKey): boolean {
@@ -62,12 +66,14 @@ const roleElementMap: TAriaQueryMap<
   },
   values: function (): Array<ARIARoleRelationConcepts> {
     return roleElement.map(([, values]) => values);
-  }
+  },
 };
 
-export default (
-  iterationDecorator(
-    roleElementMap,
-    roleElementMap.entries(),
-  ): TAriaQueryMap<RoleElementRelations, ARIARoleDefinitionKey, ARIARoleRelationConcepts>
-);
+export default (iterationDecorator(
+  roleElementMap,
+  roleElementMap.entries()
+): TAriaQueryMap<
+  RoleElementRelations,
+  ARIARoleDefinitionKey,
+  ARIARoleRelationConcepts
+>);

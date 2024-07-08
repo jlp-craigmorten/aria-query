@@ -4,7 +4,9 @@
   "description": "Programmatic access to the ARIA specification",
   "main": "lib/index.js",
   "files": [
-    "lib"
+    "lib",
+    "!lib/etc",
+    "!lib/old"
   ],
   "scripts": {
     "build": "rimraf lib && babel src --out-dir lib",
@@ -16,7 +18,8 @@
     "test": "npm run jest",
     "test:ci": "npm run jest -- --ci --runInBand",
     "jest": "jest --coverage __tests__/**/*",
-    "output_as_hack": "babel-node ./scripts/output_as_hack.js"
+    "output_as_hack": "babel-node ./scripts/output_as_hack.js",
+    "output_map_json": "babel-node ./scripts/outputMapJSON.js"
   },
   "repository": {
     "type": "git",

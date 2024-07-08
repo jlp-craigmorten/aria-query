@@ -2,11 +2,11 @@
  * @flow
  */
 
-import iterationDecorator from "./util/iterationDecorator";
-import rolesMap from './rolesMap';
+import iterationDecorator from "../util/iterationDecorator";
+import rolesMap from "./rolesMap";
 
 type RoleSet = Array<ARIARoleDefinitionKey>;
-type ElementARIARoleRelationTuple = [ARIARoleRelationConcept, RoleSet]
+type ElementARIARoleRelationTuple = [ARIARoleRelationConcept, RoleSet];
 type ElementARIARoleRelations = Array<ElementARIARoleRelationTuple>;
 
 const elementRoles: ElementARIARoleRelations = [];
@@ -20,10 +20,13 @@ for (let i = 0; i < keys.length; i++) {
     const concepts = [].concat(role.baseConcepts, role.relatedConcepts);
     for (let k = 0; k < concepts.length; k++) {
       const relation: ARIARoleRelation = concepts[k];
-      if (relation.module === 'HTML') {
+      if (relation.module === "HTML") {
         const concept = relation.concept;
         if (concept) {
-          const elementRoleRelation: ?ElementARIARoleRelationTuple = elementRoles.find(relation => ariaRoleRelationConceptEquals(relation[0], concept));
+          const elementRoleRelation: ?ElementARIARoleRelationTuple =
+            elementRoles.find((relation) =>
+              ariaRoleRelationConceptEquals(relation[0], concept)
+            );
           let roles: RoleSet;
 
           if (elementRoleRelation) {
@@ -53,23 +56,28 @@ for (let i = 0; i < keys.length; i++) {
 const elementRoleMap: TAriaQueryMap<
   ElementARIARoleRelations,
   ARIARoleRelationConcept,
-  RoleSet,
+  RoleSet
 > = {
   entries: function (): ElementARIARoleRelations {
     return elementRoles;
   },
   forEach: function (
     fn: (RoleSet, ARIARoleRelationConcept, ElementARIARoleRelations) => void,
-    thisArg: any = null,
+    thisArg: any = null
   ): void {
     for (let [key, values] of elementRoles) {
       fn.call(thisArg, values, key, elementRoles);
     }
   },
   get: function (key: ARIARoleRelationConcept): ?RoleSet {
-    const item = elementRoles.find(tuple => (
-      key.name === tuple[0].name && ariaRoleRelationConceptAttributeEquals(key.attributes, tuple[0].attributes)
-    ));
+    const item = elementRoles.find(
+      (tuple) =>
+        key.name === tuple[0].name &&
+        ariaRoleRelationConceptAttributeEquals(
+          key.attributes,
+          tuple[0].attributes
+        )
+    );
     return item && item[1];
   },
   has: function (key: ARIARoleRelationConcept): boolean {
@@ -83,15 +91,21 @@ const elementRoleMap: TAriaQueryMap<
   },
 };
 
-function ariaRoleRelationConceptEquals(a: ARIARoleRelationConcept, b: ARIARoleRelationConcept): boolean {
+function ariaRoleRelationConceptEquals(
+  a: ARIARoleRelationConcept,
+  b: ARIARoleRelationConcept
+): boolean {
   return (
     a.name === b.name &&
     ariaRoleRelationConstraintsEquals(a.constraints, b.constraints) &&
     ariaRoleRelationConceptAttributeEquals(a.attributes, b.attributes)
-  )
+  );
 }
 
-function ariaRoleRelationConstraintsEquals(a?: ARIARoleRelationConcept['constraints'], b?: ARIARoleRelationConcept['constraints']): boolean {
+function ariaRoleRelationConstraintsEquals(
+  a?: ARIARoleRelationConcept["constraints"],
+  b?: ARIARoleRelationConcept["constraints"]
+): boolean {
   if (a === undefined && b !== undefined) {
     return false;
   }
@@ -117,9 +131,8 @@ function ariaRoleRelationConstraintsEquals(a?: ARIARoleRelationConcept['constrai
 
 function ariaRoleRelationConceptAttributeEquals(
   a?: Array<ARIARoleRelationConceptAttribute>,
-  b?: Array<ARIARoleRelationConceptAttribute>,
+  b?: Array<ARIARoleRelationConceptAttribute>
 ): boolean {
-
   if (a === undefined && b !== undefined) {
     return false;
   }
@@ -143,7 +156,7 @@ function ariaRoleRelationConceptAttributeEquals(
       }
 
       if (a[i].constraints !== undefined && b[i].constraints === undefined) {
-        return false
+        return false;
       }
 
       if (a[i].constraints !== undefined && b[i].constraints !== undefined) {
@@ -163,9 +176,7 @@ function ariaRoleRelationConceptAttributeEquals(
   return true;
 }
 
-export default (
-  iterationDecorator(
-    elementRoleMap,
-    elementRoleMap.entries(),
-  ): TAriaQueryMap<ElementARIARoleRelations, ARIARoleRelationConcept, RoleSet>
-);
+export default (iterationDecorator(
+  elementRoleMap,
+  elementRoleMap.entries()
+): TAriaQueryMap<ElementARIARoleRelations, ARIARoleRelationConcept, RoleSet>);
