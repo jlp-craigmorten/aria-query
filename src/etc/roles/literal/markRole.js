@@ -9,7 +9,10 @@ const markRole: ARIARoleDefinition = {
   nameFrom: [
     'prohibited',
   ],
-  prohibitedProps: [],
+  prohibitedProps: [
+    'aria-label',
+    'aria-labelledby',
+  ],
   props: {
     'aria-braillelabel': null,
     'aria-brailleroledescription': null,

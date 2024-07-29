@@ -86,7 +86,7 @@ const entriesList = [
   [{"name": "nav"}, ["navigation"]],
   [{"name": "option"}, ["option"]],
   [{"name": "p"}, ["paragraph"]],
-  [{"attributes": [{"name": "alt", "value": ""}], "name": "img"}, ["presentation"]],
+  [{"attributes": [{"name": "alt", "value": ""}], "name": "img"}, ["none", "presentation"]],
   [{"name": "progress"}, ["progressbar"]],
   [{"attributes": [{"name": "aria-valuemax"}, {"name": "aria-valuemin", "value": 0}, {"name": "aria-valuenow"}], "constraints": ["the progress bar is determinate"],"name": "progress"}, ["progressbar"]],
   [{"attributes": [{"name": "type", "value": "radio"}], "name": "input"}, ["radio"]],
